@@ -20,16 +20,14 @@ In addition to this, it also informs the police about an impending danger befall
 - Client-Server communication: Socket.io
 - UI/UX Design: Figma
 - API testing: Postman
-## Challenges we ran into
 
-- Advik Singhania
+## Challenges we ran into
 - Securing the application with authentication using JWT and password encryption.
 - Client server communication using socket
 - Making the front-end using react native which is absolute new to us.
 
 ## Accomplishments that we're proud of
 - Making a beautiful UI.
-- Coping with Advik Singhania
 - Wrapping the project in the given time frame
 - Able to secure the application from various cyber attacks.
 
