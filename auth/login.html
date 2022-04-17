@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="email" id="email" />
+    <input type="password" name="password" id="password" />
+    <!-- <input type="submit" value="submit"> -->
+    <button onclick="submit()">Submit</button>
+    <button onclick="checkWel()"></button>
+    <!-- </form> -->
+
+    <script>
+      const submit = () => {
+        email = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        data = { email: email, password: password };
+        var myHeaders = new Headers(); // Currently empty
+        fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            console.log(response.statusText);
+            return response.text();
+          })
+          .then((data) =>{
+              console.log(JSON.parse(data).token);
+              myHeaders.set('x-access-token', JSON.parse(data).token);
+              document.cookie = JSON.parse(data).token+'; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/'
+          });
+
+      };
+
+      const checkWel = () =>{
+        fetch("/welcome", {
+          method: "POST",
+          headers: { "x-access-token": document.cookie },
+        })
+          .then((response) => {
+            console.log(response.statusText);
+            return response.text();
+          })
+          .then((data) =>{
+              console.log(data);
+          });
+      }
+    </script>
+  </body>
+</html>
