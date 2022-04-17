@@ -7,7 +7,8 @@
     <title>SOS</title>
   </head>
   <body>
-    <button onclick="getLocation()">SOS</button>
+    <button onclick="showPosition()">SOS</button>
+    <button style="display: none;" id="Toaccept" onclick="accepthelp()">Accept</button>
     <p id="demo"></p>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     <script>
@@ -16,18 +17,36 @@
 
 <script>
     var x = document.getElementById("demo");
-    
-    function getLocation() {
+    call = "";
+
+    async function fetchLocation() {
+      const coords =  await showPosition();
+      socket.emit('coords',JSON.stringify(coords));
+    }
+    async function getLocation() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        await  navigator.geolocation.getCurrentPosition(showPosition);
       } else { 
         x.innerHTML = "Geolocation is not supported by this browser.";
       }
     }
-    
-    function showPosition(position) {
-        const coordinates = {"long": position.coords.longitude, "lat": position.coords.latitude}
-        socket.emit('coords',JSON.stringify(coordinates));
+    socket.on('coords', function(msg) {
+      console.log(msg);
+    });
+    async function showPosition(position) {
+      const coordinates = {"long":await position.coords.longitude, "lat": await position.coords.latitude}
+      socket.emit('coords',JSON.stringify(coordinates));
+      return coordinates;
+    }
+    socket.on('coords', function(msg) {
+      document.getElementById('Toaccept').style.display = "block";
+      console.log(msg);
+    });
+    function accepthelp() {
+      socket.emit('accepthelp',JSON.stringify(showPosition()));
+    }
+    function accepthelp(){
+      socket.emit('accepthelp',JSON.stringify(call));
     }
     </script>
   </body>
