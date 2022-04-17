@@ -33,6 +33,7 @@
               console.log(JSON.parse(data).token);
               myHeaders.set('x-access-token', JSON.parse(data).token);
               document.cookie = JSON.parse(data).token+'; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/'
+              window.location.href = '/welcome';
           });
 
       };

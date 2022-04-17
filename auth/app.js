@@ -51,8 +51,8 @@ app.post("/register",async (req, res)=>{
         );
         user.token=token;
 
-
         res.status(201).json(user);
+        // return res.redirect('/welcome')
     } catch(err){
         console.log(err);
     }
